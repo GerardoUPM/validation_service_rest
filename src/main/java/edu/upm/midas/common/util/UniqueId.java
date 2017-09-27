@@ -1,4 +1,4 @@
-package edu.upm.midas.common.utils;
+package edu.upm.midas.common.util;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.stereotype.Service;

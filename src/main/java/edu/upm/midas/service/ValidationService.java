@@ -2,8 +2,8 @@ package edu.upm.midas.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.upm.midas.common.utils.TimeProvider;
-import edu.upm.midas.common.utils.UniqueId;
+import edu.upm.midas.common.util.TimeProvider;
+import edu.upm.midas.common.util.UniqueId;
 import edu.upm.midas.data.relational.entities.disnetdb.*;
 import edu.upm.midas.data.relational.service.*;
 import edu.upm.midas.token.model.JwtTokenUtil;

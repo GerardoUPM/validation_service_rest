@@ -1,6 +1,6 @@
 package edu.upm.midas.token.model;
 
-import edu.upm.midas.common.utils.TimeProvider;
+import edu.upm.midas.common.util.TimeProvider;
 import edu.upm.midas.data.relational.entities.disnetdb.Person;
 import edu.upm.midas.model.ValidationRequest;
 import io.jsonwebtoken.Claims;
