@@ -63,81 +63,86 @@ public class ValidationService {
         ValidationResponse validationResponse = new ValidationResponse();
 
         System.out.println("Se va a validar una api");
-        ValidationRequest validationRequest = jwtTokenUtil.getServiceJWTDecode( tokenService );
 
-        //Validar los parametros internos del token "claims"
-        if (!validationRequest.getToken().isEmpty()) {
-            String personId = jwtTokenUtil.getEmailWithJWTDecode(validationRequest.getToken());
-            SystemService systemService = systemService_Service.findById(validationRequest.getApiCode());
-            //Validar que el servicio que solicita autorización sea valido
-            if (systemService != null) {
-                if(systemService.isEnabled()) {
-                    isValid = isPersonAndTokenValid( personId, validationRequest.getToken() );
-                    if (isValid) message = "Authorized.";
-                    else message = "Person or token unauthorized.";
-                    //Inicia el registro del query
-                    //<editor-fold desc="INSERTA EL QUERY">
-                    LogQuery logQuery = new LogQuery();
-                    logQuery.setQueryId(uniqueId.generate(35));
-                    logQuery.setAuthorized( isValid );
-                    logQuery.setRequest(validationRequest.getRequest());
-                    logQuery.setDate(timeProvider.getNow());
-                    logQuery.setDatetime(timeProvider.getTimestamp());
-                    logger.info("Object Persist: {}", objectMapper.writeValueAsString(logQuery));
-                    logQuery_Service.save(logQuery);
-                    logger.info("Object Persist: {}", objectMapper.writeValueAsString(logQuery));
-                    //</editor-fold>
+        if (!tokenService.isEmpty()) {
+            ValidationRequest validationRequest = jwtTokenUtil.getServiceJWTDecode(tokenService);
 
-                    //<editor-fold desc="ENLAZA EL QUERY CON EL TOKEN">
-                    TokenQuery tokenQuery = new TokenQuery();
-                    tokenQuery.setToken(validationRequest.getToken());
-                    tokenQuery.setQueryId(logQuery.getQueryId());
-                    tokenQuery.setDate(timeProvider.getNow());
-                    tokenQuery.setDatetime(timeProvider.getTimestamp());
-                    logger.info("Object Persist: {}", objectMapper.writeValueAsString(tokenQuery));
-                    tokenQueryService.save(tokenQuery);
-                    logger.info("Object Persist: {}", objectMapper.writeValueAsString(tokenQuery));
-                    //</editor-fold>
+            //Validar los parametros internos del token "claims"
+            if (!validationRequest.getToken().isEmpty()) {
+                String personId = jwtTokenUtil.getEmailWithJWTDecode(validationRequest.getToken());
+                SystemService systemService = systemService_Service.findById(validationRequest.getApiCode());
+                //Validar que el servicio que solicita autorización sea valido
+                if (systemService != null) {
+                    if (systemService.isEnabled()) {
+                        isValid = isPersonAndTokenValid(personId, validationRequest.getToken());
+                        if (isValid) message = "Authorized";
+                        else message = "Person or token unauthorized";
+                        //Inicia el registro del query
+                        //<editor-fold desc="INSERTA EL QUERY">
+                        LogQuery logQuery = new LogQuery();
+                        logQuery.setQueryId(uniqueId.generate(35));
+                        logQuery.setAuthorized(isValid);
+                        logQuery.setRequest(validationRequest.getRequest());
+                        logQuery.setDate(timeProvider.getNow());
+                        logQuery.setDatetime(timeProvider.getTimestamp());
+                        logger.info("Object Persist: {}", objectMapper.writeValueAsString(logQuery));
+                        logQuery_Service.save(logQuery);
+                        logger.info("Object Persist: {}", objectMapper.writeValueAsString(logQuery));
+                        //</editor-fold>
 
-                    //<editor-fold desc="ENLAZA EL QUERY CON EL SERVICIO">
-                    LogQueryService logQueryService = new LogQueryService();
-                    logQueryService.setQueryId(logQuery.getQueryId());
-                    logQueryService.setServiceId(systemService.getServiceId());
-                    logger.info("Object Persist: {}", objectMapper.writeValueAsString(logQueryService));
-                    logQueryService_Service.save(logQueryService);
-                    logger.info("Object Persist: {}", objectMapper.writeValueAsString(logQueryService));
-                    //</editor-fold>
+                        //<editor-fold desc="ENLAZA EL QUERY CON EL TOKEN">
+                        TokenQuery tokenQuery = new TokenQuery();
+                        tokenQuery.setToken(validationRequest.getToken());
+                        tokenQuery.setQueryId(logQuery.getQueryId());
+                        tokenQuery.setDate(timeProvider.getNow());
+                        tokenQuery.setDatetime(timeProvider.getTimestamp());
+                        logger.info("Object Persist: {}", objectMapper.writeValueAsString(tokenQuery));
+                        tokenQueryService.save(tokenQuery);
+                        logger.info("Object Persist: {}", objectMapper.writeValueAsString(tokenQuery));
+                        //</editor-fold>
 
-                    //<editor-fold desc="ALMACENA EL PATH DEL SERVICIO">
-                    Url url = urlService.findByUrl(validationRequest.getUrl());
-                    if (url == null) {
-                        url = new Url();
-                        url.setUrl(validationRequest.getUrl());
-                        logger.info("Object Persist: {}", objectMapper.writeValueAsString(url));
-                        urlService.save(url);
-                        logger.info("Object Persist: {}", objectMapper.writeValueAsString(url));
+                        //<editor-fold desc="ENLAZA EL QUERY CON EL SERVICIO">
+                        LogQueryService logQueryService = new LogQueryService();
+                        logQueryService.setQueryId(logQuery.getQueryId());
+                        logQueryService.setServiceId(systemService.getServiceId());
+                        logger.info("Object Persist: {}", objectMapper.writeValueAsString(logQueryService));
+                        logQueryService_Service.save(logQueryService);
+                        logger.info("Object Persist: {}", objectMapper.writeValueAsString(logQueryService));
+                        //</editor-fold>
+
+                        //<editor-fold desc="ALMACENA EL PATH DEL SERVICIO">
+                        Url url = urlService.findByUrl(validationRequest.getUrl());
+                        if (url == null) {
+                            url = new Url();
+                            url.setUrl(validationRequest.getUrl());
+                            logger.info("Object Persist: {}", objectMapper.writeValueAsString(url));
+                            urlService.save(url);
+                            logger.info("Object Persist: {}", objectMapper.writeValueAsString(url));
+                        }
+                        //</editor-fold>
+
+                        //<editor-fold desc="ENLAZA EL QUERY CON EL PATH (URL)">
+                        LogQueryUrl logQueryUrl = new LogQueryUrl();
+                        logQueryUrl.setQueryId(logQuery.getQueryId());
+                        logQueryUrl.setUrlId(url.getUrlId());
+                        logger.info("Object Persist: {}", objectMapper.writeValueAsString(logQueryUrl));
+                        logQueryUrlService.save(logQueryUrl);
+                        logger.info("Object Persist: {}", objectMapper.writeValueAsString(logQueryUrl));
+                        //</editor-fold>
+                    } else {
+                        System.out.println("It's not enabled the Application Code!. Please Verify!");
+                        message = "It's not enabled the Application Code!. Please Verify!";
                     }
-                    //</editor-fold>
-
-                    //<editor-fold desc="ENLAZA EL QUERY CON EL PATH (URL)">
-                    LogQueryUrl logQueryUrl = new LogQueryUrl();
-                    logQueryUrl.setQueryId(logQuery.getQueryId());
-                    logQueryUrl.setUrlId(url.getUrlId());
-                    logger.info("Object Persist: {}", objectMapper.writeValueAsString(logQueryUrl));
-                    logQueryUrlService.save(logQueryUrl);
-                    logger.info("Object Persist: {}", objectMapper.writeValueAsString(logQueryUrl));
-                    //</editor-fold>
-                }else{
-                    System.out.println("It's not enabled the Application Code!. Please Verify!");
-                    message = "It's not enabled the Application Code!. Please Verify!";
+                } else {
+                    System.out.println("Invalid Application Code!. Please Verify!");
+                    message = "Invalid Application Code!. Please Verify!";
                 }
             } else {
-                System.out.println("Invalid Application Code!. Please Verify!");
-                message = "Invalid Application Code!. Please Verify!";
+                System.out.println(validationRequest.getMessage());
+                message = validationRequest.getMessage();
             }
         }else{
-            System.out.println(validationRequest.getMessage());
-            message = validationRequest.getMessage();
+            message = "The token cannot be empty";
         }
 
         validationResponse.setAuthorized( isValid );
