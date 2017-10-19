@@ -1,6 +1,7 @@
 package edu.upm.midas.token.model;
 
 import edu.upm.midas.common.util.TimeProvider;
+import edu.upm.midas.constants.Constants;
 import edu.upm.midas.data.relational.entities.disnetdb.Person;
 import edu.upm.midas.model.ValidationRequest;
 import io.jsonwebtoken.Claims;
@@ -166,7 +167,7 @@ public class JwtTokenUtil implements Serializable {
             validationRequest.setUrl(claims.get(this.claim_name_url).toString());
         }catch (Exception e){
             validationRequest.setEnabled(false);
-            validationRequest.setMessage("Can't read the token's properties. Please verify!");
+            validationRequest.setMessage(Constants.ERR_AUTH_CANT_READ_TOKEN_PROPERTIES);
         }
 
         return validationRequest;

@@ -18,9 +18,23 @@ public class Constants {
 
     public static final String VERSION_PROJECT = "1.0";
 
-
+    /** Mensajes de Error y de Éxito */
     public final static String ERR_NO_PARAMETER = "No parameter was sent";
     public final static String ERR_EMPTY_PARAMETER = "Empty parameter";
+
+    /** Error */
+    public final static String ERR_AUTH_CANT_READ_TOKEN_PROPERTIES = "Can't read the token's properties. Please verify!";
+    public final static String ERR_AUTH_PERSON_OR_TOKEN_UNAUTHORIZED = "Person or token unauthorized. Please verify!";
+
+    public final static String ERR_AUTH_ENABLED_APP_CODE = "It's not enabled the Application Code. Please Verify!";
+    public final static String ERR_AUTH_INVALID_APP_CODE = "Invalid Application Code. Please Verify!";
+    public final static String ERR_AUTH_PERSON_ACCESS_TOKEN_NOT_CORRECTLY_FORMED = "Person Access Token is not correctly formed. Please Verify!";
+    public final static String ERR_AUTH_PERSON_ACCESS_TOKEN_CANNOT_EMPTY = "Person Access Token cannot be empty. Please Verify!";
+    public final static String ERR_AUTH_TOKEN_CANNOT_EMPTY = "The token cannot be empty. Please Verify!";
+
+    /** Éxito */
+    public final static String OK_AUTHORIZED = "Authorized!";
+
     public final static String OK = "OK";
 
 

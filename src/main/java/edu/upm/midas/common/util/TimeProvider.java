@@ -22,6 +22,9 @@ public class TimeProvider {
     private static final DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+    /**
+     * @return Retorna la fecha de hoy en formato Date
+     */
     public Date getNow(){
         //return new Date(117, 05, 29);
         return new Date(new java.util.Date().getTime());
@@ -35,6 +38,9 @@ public class TimeProvider {
         return String.format(new java.util.Date().toString(), dtf);
     }
 
+    /**
+     * @return Retirna la fecha de hoy en formato Timestamp
+     */
     public Timestamp getTimestamp(){return new Timestamp(System.currentTimeMillis());}
 
 }
