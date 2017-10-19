@@ -20,12 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @see
  */
 @RestController
+@RequestMapping("${my.service.rest.request.mapping.general.url}" )
 public class ValidationServiceByTokenController {
 
     @Autowired
     private ValidationService validationService;
 
-    @RequestMapping(value = "/validation_service", method = RequestMethod.POST)
+    @RequestMapping(value = "${my.service.rest.request.mapping.validation.token.path}", method = RequestMethod.POST)
     public ValidationResponse validationServiceByToken(@RequestBody String tokenService, Device device) throws Exception {
         return validationService.authorizedTokenService( tokenService );
     }
