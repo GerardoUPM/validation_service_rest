@@ -57,6 +57,11 @@ public class ValidationService {
     private TimeProvider timeProvider;
 
 
+    /**
+     * @param tokenService
+     * @return
+     * @throws JsonProcessingException
+     */
     public ValidationResponse authorizedTokenService(String tokenService) throws JsonProcessingException {
         boolean isValid = false;
         String message = "Proccess not initialized";
@@ -142,7 +147,7 @@ public class ValidationService {
                 message = validationRequest.getMessage();
             }
         }else{
-            message = "The token cannot be empty";
+            message = "The token cannot be empty!. Please Verify!";
         }
 
         validationResponse.setAuthorized( isValid );

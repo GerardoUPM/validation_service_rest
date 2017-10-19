@@ -37,6 +37,20 @@ public class JwtTokenUtil implements Serializable {
     @Value("${jwt.secret}")
     private String secret;
 
+    @Value("${jwt.claims.name.user}")
+    private String claim_name_user;
+    @Value("${jwt.claims.name.name}")
+    private String claim_name_name;
+
+    @Value("${jwt.claims.name.token}")
+    private String claim_name_token;
+    @Value("${jwt.claims.name.api_code}")
+    private String claim_name_apiCode;
+    @Value("${jwt.claims.name.request}")
+    private String claim_name_request;
+    @Value("${jwt.claims.name.url}")
+    private String claim_name_url;
+
     @Value("${jwt.expiration}")
     private Long expiration;
 
@@ -96,9 +110,9 @@ public class JwtTokenUtil implements Serializable {
 
     public String generateToken(Person person, Device device) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("user", true);
-        claims.put("name", person.getFirstName() + " " + person.getLastName());
-        claims.put("secret_claim", "Perter Parker");
+        claims.put(this.claim_name_user, true);
+        claims.put(this.claim_name_name, person.getFirstName() + " " + person.getLastName());
+        //claims.put("secret_claim", "Perter Parker");
         return doGenerateToken(claims, person, generateAudience(device));
     }
 
@@ -122,11 +136,11 @@ public class JwtTokenUtil implements Serializable {
     public String getEmailWithJWTDecode(String token){
 
         Claims claims = Jwts.parser()
-                .setSigningKey(secret)
-                .parseClaimsJws(token).getBody();
+                .setSigningKey( secret )
+                .parseClaimsJws( token ).getBody();
 
         System.out.println("CLAIMS "+claims.toString());
-        System.out.println("EXTRACT CLAIM: " + claims.get("secret_claim"));
+        //TEST//System.out.println("EXTRACT CLAIM: " + claims.get("secret_claim"));
 
         return claims.getSubject();
 
@@ -146,10 +160,10 @@ public class JwtTokenUtil implements Serializable {
 
             System.out.println(claims.toString());
 
-            validationRequest.setToken(claims.get("token").toString());
-            validationRequest.setApiCode(claims.get("api_code").toString());
-            validationRequest.setRequest(claims.get("request").toString());
-            validationRequest.setUrl(claims.get("url").toString());
+            validationRequest.setToken(claims.get(this.claim_name_token).toString());
+            validationRequest.setApiCode(claims.get(this.claim_name_apiCode).toString());
+            validationRequest.setRequest(claims.get(this.claim_name_request).toString());
+            validationRequest.setUrl(claims.get(this.claim_name_url).toString());
         }catch (Exception e){
             validationRequest.setEnabled(false);
             validationRequest.setMessage("Can't read the token's properties. Please verify!");
