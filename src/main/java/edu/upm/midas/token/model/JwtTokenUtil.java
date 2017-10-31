@@ -34,6 +34,8 @@ public class JwtTokenUtil implements Serializable {
 
     @Autowired
     private TimeProvider timeProvider;
+    @Autowired
+    private Constants constants;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -111,8 +113,8 @@ public class JwtTokenUtil implements Serializable {
 
     public String generateToken(Person person, Device device) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put(this.claim_name_user, true);
-        claims.put(this.claim_name_name, person.getFirstName() + " " + person.getLastName());
+        claims.put(claim_name_user, true);
+        claims.put(claim_name_name, person.getFirstName() + " " + person.getLastName());
         //claims.put("secret_claim", "Perter Parker");
         return doGenerateToken(claims, person, generateAudience(device));
     }
@@ -134,16 +136,22 @@ public class JwtTokenUtil implements Serializable {
                 .compact();
     }
 
-    public String getEmailWithJWTDecode(String token){
+    public String getEmailWithJWTDecode(ValidationRequest validationRequest){
+        //System.out.println("USER TOKEN: "+ token);
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey( secret )
+                    .parseClaimsJws( validationRequest.getToken() ).getBody();
 
-        Claims claims = Jwts.parser()
-                .setSigningKey( secret )
-                .parseClaimsJws( token ).getBody();
-
-        System.out.println("CLAIMS "+claims.toString());
-        //TEST//System.out.println("EXTRACT CLAIM: " + claims.get("secret_claim"));
-
-        return claims.getSubject();
+            //System.out.println("EMAIL CLAIM: " + claims.toString());
+            //TEST//System.out.println("EXTRACT CLAIM: " + claims.get("secret_claim"));
+            return claims.getSubject();
+        }catch (Exception e){
+            //ESTE TIPO DE ERRORES (e.getMessage()) NO SE DEBEN MOSTRAR AL USUARIO FINAL, SINO DEBEN IR EN EL LOG
+            validationRequest.setEnabled(false);
+            validationRequest.setMessage(constants.ERR_AUTH_CODE_003() + ": " + constants.ERR_AUTH_CANNOT_READ_THE_TOKENS_EMAIL_PROPERTY + " - " + e.getMessage());
+            return "";
+        }
 
     }
 
@@ -159,15 +167,16 @@ public class JwtTokenUtil implements Serializable {
                     .setSigningKey(secret)
                     .parseClaimsJws(token).getBody();
 
-            System.out.println(claims.toString());
+            System.out.println("CLAIMS: " + claims.toString());
 
-            validationRequest.setToken(claims.get(this.claim_name_token).toString());
-            validationRequest.setApiCode(claims.get(this.claim_name_apiCode).toString());
-            validationRequest.setRequest(claims.get(this.claim_name_request).toString());
-            validationRequest.setUrl(claims.get(this.claim_name_url).toString());
+            validationRequest.setToken( claims.get(claim_name_token).toString()) ;
+            validationRequest.setApiCode( claims.get(claim_name_apiCode).toString() );
+            validationRequest.setRequest( claims.get(claim_name_request).toString() );
+            validationRequest.setUrl( claims.get(claim_name_url).toString() );
+            validationRequest.setEnabled( !claims.isEmpty() );
         }catch (Exception e){
-            validationRequest.setEnabled(false);
-            validationRequest.setMessage(Constants.ERR_AUTH_CANT_READ_TOKEN_PROPERTIES);
+            validationRequest.setEnabled( false );
+            validationRequest.setMessage( constants.ERR_AUTH_CODE_001() + ": " + constants.ERR_AUTH_CANT_READ_TOKEN_PROPERTIES + " - " + e.getMessage() );
         }
 
         return validationRequest;

@@ -3,6 +3,7 @@ package edu.upm.midas.constants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Date;
 
 /**
@@ -16,6 +17,12 @@ import java.util.Date;
 @Component
 public class Constants {
 
+    @Value("${disnet.general.error_code}")
+    public String DISNET_ERROR_CODE;
+    @Value("${my.service.error_code}")
+    public String SERVICE_ERROR_CODE;
+
+
     public static final String VERSION_PROJECT = "1.0";
 
     /** Mensajes de Error y de Éxito */
@@ -24,6 +31,7 @@ public class Constants {
 
     /** Error */
     public final static String ERR_AUTH_CANT_READ_TOKEN_PROPERTIES = "Can't read the token's properties. Please verify!";
+    public final static String ERR_AUTH_CANNOT_READ_THE_TOKENS_EMAIL_PROPERTY = "Cannot read the token's email property. Please verify!";
     public final static String ERR_AUTH_PERSON_OR_TOKEN_UNAUTHORIZED = "Person or token unauthorized. Please verify!";
 
     public final static String ERR_AUTH_ENABLED_APP_CODE = "It's not enabled the Application Code. Please Verify!";
@@ -31,6 +39,23 @@ public class Constants {
     public final static String ERR_AUTH_PERSON_ACCESS_TOKEN_NOT_CORRECTLY_FORMED = "Person Access Token is not correctly formed. Please Verify!";
     public final static String ERR_AUTH_PERSON_ACCESS_TOKEN_CANNOT_EMPTY = "Person Access Token cannot be empty. Please Verify!";
     public final static String ERR_AUTH_TOKEN_CANNOT_EMPTY = "The token cannot be empty. Please Verify!";
+    public final static String ERR_AUTH_NO_EMAIL_WAS_FOUND_IN_THE_ACCESS_TOKEN = "No email was found in the login token. Please contact the administrator!";
+    public final static String ERR_AUTH_NO_PERSON_OR_TOKEN_IS_FOUND = "No person or token is found. Please verify!";
+    public final static String ERR_AUTH_UNATHORIZED_TOKEN_OR_PERSON_STATUS = "Unauthorized token or person status. Please verify!";
+    public final static String ERR_AUTH_THERE_WAS_A_PROBLEM_REGISTERING_A_QUERY = "There was a problem registering a query. Please contact the administrator!";
+    public final static String ERR_AUTH_THERE_WAS_A_PROBLEM_FINDING_A_PERSON_AND_THEIR_TOKEN = "There was a problem finding a person and their token. Please contact the administrator!";
+
+    public String ERR_AUTH_CODE_000 = "000";
+    public String ERR_AUTH_CODE_001 = "001";
+    public String ERR_AUTH_CODE_002 = "002";
+    public String ERR_AUTH_CODE_003 = "003";
+    public String ERR_AUTH_CODE_004 = "004";
+    public String ERR_AUTH_CODE_005 = "005";
+    public String ERR_AUTH_CODE_006 = "006";
+    public String ERR_AUTH_CODE_007 = "007";
+    public String ERR_AUTH_CODE_008 = "008";
+    public String ERR_AUTH_CODE_009 = "009";
+    public String ERR_AUTH_CODE_010 = "010";
 
     /** Éxito */
     public final static String OK_AUTHORIZED = "Authorized!";
@@ -548,4 +573,49 @@ public class Constants {
 
 
 
+    /* GETTERS AND SETTERS*/
+
+    public String ERR_AUTH_CODE_000() {
+        return DISNET_ERROR_CODE + SERVICE_ERROR_CODE + ERR_AUTH_CODE_000;
+    }
+
+    public String ERR_AUTH_CODE_001() {
+        return DISNET_ERROR_CODE + SERVICE_ERROR_CODE + ERR_AUTH_CODE_001;
+    }
+
+    public String ERR_AUTH_CODE_002() {
+        return DISNET_ERROR_CODE + SERVICE_ERROR_CODE + ERR_AUTH_CODE_002;
+    }
+
+    public String ERR_AUTH_CODE_003() {
+        return DISNET_ERROR_CODE + SERVICE_ERROR_CODE + ERR_AUTH_CODE_003;
+    }
+
+    public String ERR_AUTH_CODE_004() {
+        return DISNET_ERROR_CODE + SERVICE_ERROR_CODE + ERR_AUTH_CODE_004;
+    }
+
+    public String ERR_AUTH_CODE_005() {
+        return DISNET_ERROR_CODE + SERVICE_ERROR_CODE + ERR_AUTH_CODE_005;
+    }
+
+    public String ERR_AUTH_CODE_006() {
+        return DISNET_ERROR_CODE + SERVICE_ERROR_CODE + ERR_AUTH_CODE_006;
+    }
+
+    public String ERR_AUTH_CODE_007() {
+        return DISNET_ERROR_CODE + SERVICE_ERROR_CODE + ERR_AUTH_CODE_007;
+    }
+
+    public String ERR_AUTH_CODE_008() {
+        return DISNET_ERROR_CODE + SERVICE_ERROR_CODE + ERR_AUTH_CODE_008;
+    }
+
+    public String ERR_AUTH_CODE_009() {
+        return DISNET_ERROR_CODE + SERVICE_ERROR_CODE + ERR_AUTH_CODE_009;
+    }
+
+    public String ERR_AUTH_CODE_010() {
+        return DISNET_ERROR_CODE + SERVICE_ERROR_CODE + ERR_AUTH_CODE_010;
+    }
 }
