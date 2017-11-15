@@ -573,7 +573,7 @@ public class Constants {
 
 
 
-    /* GETTERS AND SETTERS*/
+    /* GETTERS*/
 
     public String ERR_AUTH_CODE_000() {
         return DISNET_ERROR_CODE + SERVICE_ERROR_CODE + ERR_AUTH_CODE_000;

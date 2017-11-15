@@ -20,7 +20,7 @@ import java.util.List;
 public class SystemServiceRepositoryImpl extends AbstractDao<String, SystemService>
                                         implements SystemServiceRepository{
     @Override
-    public SystemService findById(String serviceId) {
+    public SystemService findById(String serviceId) {//System.out.println(serviceId);
         SystemService systemService = getByKey(serviceId);
         return systemService;
     }
