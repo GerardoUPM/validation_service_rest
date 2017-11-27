@@ -31,11 +31,4 @@ public class ValidationServiceByTokenController {
         return validationService.authorizedTokenService( tokenService );
     }
 
-    /*@RequestMapping(value = "${my.service.rest.request.mapping.validation.token.path}", method = RequestMethod.POST)
-    public ValidationResponse validationServiceByToken(@RequestBody String tokenService, Device device) throws Exception {
-        return validationService.authorizedTokenService( tokenService );
-    }*/
-
-
-
 }

@@ -136,7 +136,7 @@ public class ValidationService {
                                             logger.info("Object Persist: {}", objectMapper.writeValueAsString(logQueryService));
                                             //</editor-fold>
 
-                                            //<editor-fold desc="ALMACENA EL PATH DEL SERVICIO">
+                                            //<editor-fold desc="INSERTA LA URL DEL SERVICIO SI NO EXISTE">
                                             Url url = urlService.findByUrl(validationRequest.getUrl());
                                             if (url == null) {
                                                 url = new Url();
