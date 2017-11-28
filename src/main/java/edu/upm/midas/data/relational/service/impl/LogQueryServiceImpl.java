@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Service("logQueryServiceService")
@@ -46,6 +48,12 @@ public class LogQueryServiceImpl implements LogQuery_Service {
     @Transactional(propagation= Propagation.REQUIRED)
     public LogQuery update(LogQuery logQuery) {
         return daoLogQuery.update(logQuery);
+    }
+
+    @Transactional(propagation= Propagation.REQUIRED)
+    public int updateRuntimeNative(String queryId, Timestamp startDatetime, Timestamp endDatetime) {
+        System.out.println(queryId + " - " + startDatetime + " - " + endDatetime);
+        return daoLogQuery.updateRuntimeNative(queryId, startDatetime, endDatetime);
     }
 
     @Transactional(propagation= Propagation.REQUIRED)

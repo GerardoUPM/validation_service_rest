@@ -13,6 +13,7 @@ import edu.upm.midas.model.ValidationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Service;
 
 /**
@@ -70,7 +71,7 @@ public class ValidationService {
      * @return Retorna un objeto ValidationResponse
      * @throws JsonProcessingException
      */
-    public ValidationResponse authorizedTokenService(String tokenService) throws Exception {
+    public ValidationResponse authorizedTokenService(String tokenService, Device device) throws Exception {
         boolean isValid = false;
         String message;
         ValidationResponse validationResponse = new ValidationResponse();
@@ -114,6 +115,11 @@ public class ValidationService {
                                             logger.info("Object Persist: {}", objectMapper.writeValueAsString(logQuery));
                                             logQuery_Service.save(logQuery);
                                             logger.info("Object Persist: {}", objectMapper.writeValueAsString(logQuery));
+                                            //</editor-fold>
+
+                                            //<editor-fold desc="GENERA UN TOKEN QUE RETORNA INFORMACIÓN EXTRA">
+                                            String token = jwtTokenUtil.generateTokenToUpdateQueryRuntime(logQuery.getQueryId(), device);
+                                            validationResponse.setToken(token);
                                             //</editor-fold>
 
                                             //<editor-fold desc="ENLAZA EL QUERY CON EL TOKEN">

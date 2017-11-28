@@ -5,6 +5,8 @@ import edu.upm.midas.data.relational.repository.AbstractDao;
 import edu.upm.midas.data.relational.repository.LogQueryRepository;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Repository("LogQueryRepositoryDao")
@@ -41,6 +43,16 @@ public class LogQueryRepositoryImpl extends AbstractDao<String, LogQuery>
     @Override
     public LogQuery update(LogQuery logQuery) {
         return super.update(logQuery);
+    }
+
+    @Override
+    public int updateRuntimeNative(String queryId, Timestamp startDatetime, Timestamp endDatetime) {
+        return getEntityManager()
+                .createNamedQuery("LogQuery.updateRuntimeNative")
+                .setParameter("queryId", queryId)
+                .setParameter("startDatetime", startDatetime)
+                .setParameter("endDatetime", endDatetime)
+                .executeUpdate();
     }
 
     @Override

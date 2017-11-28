@@ -53,6 +53,8 @@ public class JwtTokenUtil implements Serializable {
     private String claim_name_request;
     @Value("${jwt.claims.name.url}")
     private String claim_name_url;
+    @Value("${jwt.claims.name.transaction_id}")
+    private String claim_name_transactionId;
 
     @Value("${jwt.expiration}")
     private Long expiration;
@@ -119,6 +121,12 @@ public class JwtTokenUtil implements Serializable {
         return doGenerateToken(claims, person, generateAudience(device));
     }
 
+    public String generateTokenToUpdateQueryRuntime(String queryId, Device device) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(claim_name_transactionId, queryId);
+        return doGenerateTokenWithoutPerson(claims, generateAudience(device));
+    }
+
     private String doGenerateToken(Map<String, Object> claims, Person person, String audience) {
         final Date createdDate = timeProvider.getNow();
         final Date expirationDate = calculateExpirationDate(createdDate);
@@ -132,6 +140,20 @@ public class JwtTokenUtil implements Serializable {
                 .setAudience(audience)
                 .setIssuedAt(createdDate)
                 //.setExpiration(expirationDate)
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
+    }
+
+    private String doGenerateTokenWithoutPerson(Map<String, Object> claims, String audience) {
+        final Date createdDate = timeProvider.getNow();
+        final Date expirationDate = calculateExpirationDate(createdDate);
+
+        System.out.println("doGenerateToken " + createdDate);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setAudience(audience)
+                .setIssuedAt(createdDate)
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }

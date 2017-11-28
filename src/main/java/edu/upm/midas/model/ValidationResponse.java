@@ -12,6 +12,7 @@ public class ValidationResponse {
 
     private boolean authorized;
     private String message;
+    private String token;//Se enviará información extra entre los claims
 
 
     public boolean isAuthorized() {
@@ -28,5 +29,13 @@ public class ValidationResponse {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

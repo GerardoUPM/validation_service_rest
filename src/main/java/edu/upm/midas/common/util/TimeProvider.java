@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 
@@ -19,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 @Service("date")
 public class TimeProvider {
 
-    private static final DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private DateFormat sdf;
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
@@ -42,5 +43,14 @@ public class TimeProvider {
      * @return Retirna la fecha de hoy en formato Timestamp
      */
     public Timestamp getTimestamp(){return new Timestamp(System.currentTimeMillis());}
+
+    public DateFormat getSdf() {
+        return this.sdf = new SimpleDateFormat("yyyy-MM-dd");
+    }
+
+    public Timestamp convertStringToTimestamp(String timestamp) throws ParseException {
+        java.util.Date parseDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSS").parse(timestamp);
+        return new Timestamp(parseDate.getTime());
+    }
 
 }
