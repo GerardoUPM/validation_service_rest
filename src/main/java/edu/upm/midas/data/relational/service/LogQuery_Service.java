@@ -20,7 +20,7 @@ public interface LogQuery_Service {
 
     LogQuery update(LogQuery logQuery);
 
-    int updateRuntimeNative(String queryId, Timestamp startDatetime, Timestamp endDatetime);
+    int updateRuntimeNative(String queryId, String startDatetime, String endDatetime);
 
     int updateByIdQuery(String queryId);
 

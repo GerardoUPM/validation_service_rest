@@ -37,7 +37,7 @@ public class QueryUpdateController {
                                          Device device) throws Exception {
         System.out.println(request.getQueryId() + " - " + request.getStartDatetime() + " - " + request.getEndDatetime());
         //try {
-            int update = logQuery_Service.updateRuntimeNative(request.getQueryId(), timeProvider.convertStringToTimestamp(request.getStartDatetime()), timeProvider.convertStringToTimestamp(request.getEndDatetime()));
+            int update = logQuery_Service.updateRuntimeNative(request.getQueryId(), request.getStartDatetime(), request.getEndDatetime());
             if (update > 0) {
                 return HttpStatus.OK;
             }else {

@@ -46,7 +46,7 @@ public class LogQueryRepositoryImpl extends AbstractDao<String, LogQuery>
     }
 
     @Override
-    public int updateRuntimeNative(String queryId, Timestamp startDatetime, Timestamp endDatetime) {
+    public int updateRuntimeNative(String queryId, String startDatetime, String endDatetime) {
         return getEntityManager()
                 .createNamedQuery("LogQuery.updateRuntimeNative")
                 .setParameter("queryId", queryId)

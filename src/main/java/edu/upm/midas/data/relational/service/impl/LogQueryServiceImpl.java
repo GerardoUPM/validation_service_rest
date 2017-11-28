@@ -51,8 +51,8 @@ public class LogQueryServiceImpl implements LogQuery_Service {
     }
 
     @Transactional(propagation= Propagation.REQUIRED)
-    public int updateRuntimeNative(String queryId, Timestamp startDatetime, Timestamp endDatetime) {
-        System.out.println(queryId + " - " + startDatetime + " - " + endDatetime);
+    public int updateRuntimeNative(String queryId, String startDatetime, String endDatetime) {
+        //System.out.println(queryId + " - " + startDatetime + " - " + endDatetime);
         return daoLogQuery.updateRuntimeNative(queryId, startDatetime, endDatetime);
     }
 
