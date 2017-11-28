@@ -53,4 +53,8 @@ public class TimeProvider {
         return new Timestamp(parseDate.getTime());
     }
 
+    public String dateFormatyyyMMdd(java.util.Date date){
+        return new SimpleDateFormat("yyyy-MM-dd").format(date);
+    }
+
 }
