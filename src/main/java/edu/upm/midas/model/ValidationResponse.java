@@ -13,6 +13,7 @@ public class ValidationResponse {
     private boolean authorized;
     private String message;
     private String token;//Se enviará información extra entre los claims
+    private ApiResponseError apiResponseError;
 
 
     public boolean isAuthorized() {
@@ -37,5 +38,13 @@ public class ValidationResponse {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public ApiResponseError getApiResponseError() {
+        return apiResponseError;
+    }
+
+    public void setApiResponseError(ApiResponseError apiResponseError) {
+        this.apiResponseError = apiResponseError;
     }
 }

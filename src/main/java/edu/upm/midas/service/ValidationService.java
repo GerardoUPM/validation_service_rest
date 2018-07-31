@@ -110,6 +110,7 @@ public class ValidationService {
                                             logQuery.setQueryId(uniqueId.generate(35));
                                             logQuery.setAuthorized(isValid);
                                             logQuery.setRequest(validationRequest.getRequest());
+                                            logQuery.setMethod(validationRequest.getMethod());
                                             logQuery.setDate(timeProvider.getNow());
                                             logQuery.setDatetime(timeProvider.getTimestamp());
                                             logger.info("Object Persist: {}", objectMapper.writeValueAsString(logQuery));

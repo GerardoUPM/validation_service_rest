@@ -36,16 +36,16 @@ public class QueryUpdateController {
     public HttpStatus updateQueryRunTime(@RequestBody @Valid UpdateQueryRuntimeRequest request,
                                          Device device) throws Exception {
         System.out.println(request.getQueryId() + " - " + request.getStartDatetime() + " - " + request.getEndDatetime());
-        //try {
+        try {
             int update = logQuery_Service.updateRuntimeNative(request.getQueryId(), request.getStartDatetime(), request.getEndDatetime());
             if (update > 0) {
                 return HttpStatus.OK;
             }else {
                 return HttpStatus.NOT_FOUND;
             }
-        //}catch (Exception e){
-        //    return HttpStatus.INTERNAL_SERVER_ERROR;
-        //}
+        }catch (Exception e){
+            return HttpStatus.INTERNAL_SERVER_ERROR;
+        }
     }
 
 }

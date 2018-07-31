@@ -49,6 +49,7 @@ import java.util.Objects;
                                 @FieldResult(name = "queryId", column = "query_id"),
                                 @FieldResult(name = "authorized", column = "authorized"),
                                 @FieldResult(name = "request", column = "request"),
+                                @FieldResult(name = "method", column = "method"),
                                 @FieldResult(name = "date", column = "date"),
                                 @FieldResult(name = "datetime", column = "datetime"),
                                 @FieldResult(name = "startDatetime", column = "start_datetime"),
@@ -63,6 +64,7 @@ public class LogQuery {
     private String queryId;
     private boolean authorized;
     private String request;
+    private String method;
     private Date date;
     private Timestamp datetime;
     private Timestamp startDatetime;
@@ -99,6 +101,16 @@ public class LogQuery {
 
     public void setRequest(String request) {
         this.request = request;
+    }
+
+    @Basic
+    @Column(name = "method", nullable = true, length = -1)
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
     }
 
     @Basic
@@ -149,6 +161,7 @@ public class LogQuery {
         return Objects.equals(queryId, logQuery.queryId) &&
                 Objects.equals(authorized, logQuery.authorized) &&
                 Objects.equals(request, logQuery.request) &&
+                Objects.equals(method, logQuery.method) &&
                 Objects.equals(date, logQuery.date) &&
                 Objects.equals(datetime, logQuery.datetime) &&
                 Objects.equals(startDatetime, logQuery.startDatetime) &&
@@ -157,7 +170,7 @@ public class LogQuery {
 
     @Override
     public int hashCode() {
-        return Objects.hash(queryId, authorized, request, date, datetime, startDatetime, endDatetime);
+        return Objects.hash(queryId, authorized, request, method, date, datetime, startDatetime, endDatetime);
     }
 
     @OneToMany(mappedBy = "logQueryByQueryId")

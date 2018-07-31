@@ -53,6 +53,8 @@ public class JwtTokenUtil implements Serializable {
     private String claim_name_request;
     @Value("${jwt.claims.name.url}")
     private String claim_name_url;
+    @Value("${jwt.claims.name.method}")
+    private String claim_name_method;
     @Value("${jwt.claims.name.transaction_id}")
     private String claim_name_transactionId;
 
@@ -171,7 +173,7 @@ public class JwtTokenUtil implements Serializable {
         }catch (Exception e){
             //ESTE TIPO DE ERRORES (e.getMessage()) NO SE DEBEN MOSTRAR AL USUARIO FINAL, SINO DEBEN IR EN EL LOG
             validationRequest.setEnabled(false);
-            validationRequest.setMessage(constants.ERR_AUTH_CODE_003() + ": " + constants.ERR_AUTH_CANNOT_READ_THE_TOKENS_EMAIL_PROPERTY + " - " + e.getMessage());
+            validationRequest.setMessage(constants.ERR_AUTH_CODE_003() + ": " + constants.ERR_AUTH_CANNOT_READ_THE_TOKENS_EMAIL_PROPERTY /*+ " - " + e.getMessage()*/);
             return "";
         }
 
@@ -195,6 +197,7 @@ public class JwtTokenUtil implements Serializable {
             validationRequest.setApiCode( claims.get(claim_name_apiCode).toString() );
             validationRequest.setRequest( claims.get(claim_name_request).toString() );
             validationRequest.setUrl( claims.get(claim_name_url).toString() );
+            validationRequest.setMethod( claims.get(claim_name_method).toString() );
             validationRequest.setEnabled( !claims.isEmpty() );
         }catch (Exception e){
             validationRequest.setEnabled( false );

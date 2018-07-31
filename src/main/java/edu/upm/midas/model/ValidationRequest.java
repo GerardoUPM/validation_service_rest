@@ -32,6 +32,10 @@ public class ValidationRequest {
     @NotNull(message = Constants.ERR_NO_PARAMETER)
     @NotEmpty(message = Constants.ERR_EMPTY_PARAMETER)
     private String url;
+    @Valid
+    @NotNull(message = Constants.ERR_NO_PARAMETER)
+    @NotEmpty(message = Constants.ERR_EMPTY_PARAMETER)
+    private String method;
     private boolean enabled;
     private String message;
 
@@ -66,6 +70,14 @@ public class ValidationRequest {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
     }
 
     public boolean isEnabled() {
